@@ -2,11 +2,13 @@
 const express = require('express');
 const xmlparser = require('express-xml-bodyparser');
 const etaxApi = require('./callEtax.js');
+const cors = require('cors')
 
 //Application setting
 const app = express ();
 app.use(express.json());
-app.use(xmlparser({explicitArray:false}));
+app.use(xmlparser({explicitArray:false, normalizeTags:false}));
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
