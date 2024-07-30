@@ -1,10 +1,10 @@
 //Module
 const express = require('express');
-const convert = require('./xml_convert')
 const xmlparser = require('express-xml-bodyparser');
-const app = express ();
+const etaxApi = require('./callEtax.js');
 
 //Application setting
+const app = express ();
 app.use(express.json());
 app.use(xmlparser({explicitArray:false}));
 
@@ -20,6 +20,9 @@ app.get("/status", (request, response) => {
    };
    response.send(status);
 });
-app.post("/upload", function(request, response){
-    response.send(request.body)
+app.post("/upload", async function(request, response){
+    json_data = request.body['root'];
+    resCode =  await etaxApi.importToEtax(json_data);
+    console.log(resCode);
+    response.sendStatus(resCode);
 });
